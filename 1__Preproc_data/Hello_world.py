@@ -1,1 +1,3 @@
+import lasio
+
 print('aaa')
