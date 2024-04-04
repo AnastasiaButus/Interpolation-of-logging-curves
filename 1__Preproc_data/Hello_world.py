@@ -1,3 +1,3 @@
-import lasio
-
 print('aaa')
+
+print('Урааа, могу ковырять чужие файлы!')
