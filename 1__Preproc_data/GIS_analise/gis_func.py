@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 import lasio
@@ -17,7 +18,7 @@ def get_df_well_coord(dir_name_coord = "omsk",
 
 def get_well_gis(well_name, name_signal, df_coord,
                  dir_name_las = "omsk"):
-    """ Reads lasio files and returns (pd.Series of signal, x, y well`s buttom coordinates)
+    """ Reads lasio files and returns (pd.Series of signal, (x, y) well`s buttom coordinates)
 
     well_name - name of well.
     name_signal - type of signal. One from [ 'BK', 'NKT', 'IK', 'GK', 'SP', 'RT' ].
@@ -31,7 +32,8 @@ def get_well_gis(well_name, name_signal, df_coord,
 
     coord = df_coord.loc[well_name]
 
-    return df_gis, coord[0], coord[1]
+
+    return df_gis, coord
 
 
 def get_all_gis(name_signal,
@@ -45,11 +47,18 @@ def get_all_gis(name_signal,
     """
     df_signals = pd.DataFrame()
 
-    df_coord = get_df_well_coord()
+    df_coord_0 = get_df_well_coord()
     
     for file in os.listdir(dir_name_las):
         if (file[0]=='g') and (file[1:4].isdigit()) and (file[4:]==".las"): # Filterng right well files
-            gis = get_well_gis(file[:4], name_signal, df_coord)
+            gis = get_well_gis(file[:4], name_signal, df_coord_0)
+
+
             df_signals = pd.concat([df_signals, gis[0]], axis=1, join='outer')
+
+            print(f"file: {file} processed", end='\r')
+            
+    df_coord = df_coord_0.loc[df_signals.columns]
+
 
     return df_signals, df_coord
