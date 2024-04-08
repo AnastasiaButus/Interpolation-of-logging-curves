@@ -63,7 +63,10 @@ def get_all_gis(name_signal,
     for file in os.listdir(dir_name_las):
         
         if (file[0]=='g') and (file[1:4].isdigit()) and (file[4:]==".las"): # Filterng right well files
-            gis = get_well_gis(file[:4], name_signal, df_coord_0)
+            try:
+                gis = get_well_gis(file[:4], name_signal, df_coord_0)
+            except: 
+                print(f"No {name_signal} in {file}\n")
             if i==0:
                 df_signals = pd.DataFrame(index=gis[0].index)
 
