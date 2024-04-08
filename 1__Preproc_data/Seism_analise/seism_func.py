@@ -1,5 +1,6 @@
 import numpy as np
 import segyio
+import pandas as pd
 
 
 def get_seism_cube(file_dir="", file_name="J1-3_plus_minus_150ms"):
