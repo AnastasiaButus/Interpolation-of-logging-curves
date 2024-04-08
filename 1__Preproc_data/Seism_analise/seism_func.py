@@ -1,10 +1,46 @@
 import numpy as np
-import segyio
 import pandas as pd
+import segyio
+
+
+def get_well_info(path_to_well_coord,
+                  path_to_t_top,
+                  path_to_t_bottom,
+                  well_coord_def_set_index,
+                  t_top_def_set_index,
+                  t_bottom_def_set_index):
+    """ Reads numerous data about wells from different files and conatanates it.
+    """
+    df_well_coord = pd.read_csv(path_to_well_coord, delimiter=";").drop_duplicates()
+    df_top_ms = pd.read_csv(path_to_t_top, delimiter=";", usecols=["Well", "TWT"]).dropna().drop_duplicates(subset=["Well"])
+    df_bottom_ms = pd.read_csv(path_to_t_bottom, delimiter="\t", usecols=["Well identifier", "Bot, ms"]).dropna().drop_duplicates(subset=["Well identifier"])
+
+    df_well_coord.set_index(well_coord_def_set_index, inplace=True)
+    df_top_ms.set_index(t_top_def_set_index, inplace=True)
+    df_bottom_ms.set_index(t_bottom_def_set_index, inplace=True)
+    df_well_coord.index.name, df_bottom_ms.index.name, df_top_ms.index.name = ["Well"]*3
+
+    df_well_coord.columns = ["x", "y", "top_z", "bottom_z"]
+    df_top_ms.columns = ["top_t"]
+    df_bottom_ms.columns = ["bottom_t"]
+
+    df_info = pd.concat([df_well_coord, df_top_ms, df_bottom_ms], axis=1, join="inner")
+
+    df_info["delta_z"] = df_info["bottom_z"] - df_info["top_z"]
+    df_info["delta_t"] = df_info["top_t"] - df_info["bottom_t"]
+
+    #trash_delta_z = 47.5
+    #trash_delta_t = 20
+    #df_info = df_info[df_info["delta_z"]<trash_delta_z]
+    #df_info = df_info[df_info["delta_t"]>trash_delta_t]
+
+    df_info["v"] = df_info['delta_z'] / df_info['delta_t'] * 2 * 1000
+
+    return df_info
 
 
 def get_seism_cube(file_dir="", file_name="J1-3_plus_minus_150ms"):
-    """ Reads seisma data and returns seiasma cube
+    """ Reads seisma data and returns seiasma cube.
 
     file_dir - directory to file
     file_name - name of the csv file
