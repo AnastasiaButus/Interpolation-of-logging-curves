@@ -29,10 +29,10 @@ def get_well_info(path_to_well_coord,
     df_info["delta_z"] = df_info["bottom_z"] - df_info["top_z"]
     df_info["delta_t"] = df_info["top_t"] - df_info["bottom_t"]
 
-    #trash_delta_z = 47.5
-    #trash_delta_t = 20
-    #df_info = df_info[df_info["delta_z"]<trash_delta_z]
-    #df_info = df_info[df_info["delta_t"]>trash_delta_t]
+    trash_delta_z = 47.5
+    trash_delta_t = 20
+    df_info = df_info[df_info["delta_z"]<trash_delta_z]
+    df_info = df_info[df_info["delta_t"]>trash_delta_t]
 
     df_info["v"] = df_info['delta_z'] / df_info['delta_t'] * 2 * 1000
 
