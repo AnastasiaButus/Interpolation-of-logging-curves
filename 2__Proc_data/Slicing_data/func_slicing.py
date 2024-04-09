@@ -30,7 +30,8 @@ def slice_2d(m_x, m_y, x_wind, step = 1):
     step: step of slicing.
     """
     ar_x, ar_y = slice_1d(m_x[0], m_y[0], x_wind, step = 1)
-    m_x_sl, m_y_sl = np.array([ar_x[0]]), np.array([ar_y[0]])
+    m_x_sl, m_y_sl = np.array(ar_x), np.array(ar_y)
+
 
     for j in range(1, len(m_y)):
         ar_x, ar_y = slice_1d(m_x[j], m_y[j], x_wind)
