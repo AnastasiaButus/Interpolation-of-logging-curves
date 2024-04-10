@@ -35,8 +35,11 @@ def slice_2d(m_x, m_y, x_wind, step = 1):
 
     for j in range(1, len(m_y)):
         ar_x, ar_y = slice_1d(m_x[j], m_y[j], x_wind)
-        m_x_sl = np.concatenate([m_x_sl, ar_x], axis = 0)
-        m_y_sl = np.concatenate([m_y_sl, ar_y], axis = 0)
+        #print(f"ar_x: {ar_x}")
+        #print(f"ar_y: {ar_y}")
+        if len(ar_x)*len(ar_y)!=0:
+            m_x_sl = np.concatenate([m_x_sl, ar_x], axis = 0)
+            m_y_sl = np.concatenate([m_y_sl, ar_y], axis = 0)
 
 
     return m_x_sl, m_y_sl
