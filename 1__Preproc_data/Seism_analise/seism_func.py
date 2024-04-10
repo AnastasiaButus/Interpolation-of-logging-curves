@@ -15,6 +15,7 @@ def get_well_info(path_to_well_coord,
     df_top_ms = pd.read_csv(path_to_t_top, delimiter=";", usecols=["Well", "TWT"]).dropna().drop_duplicates(subset=["Well"])
     df_bottom_ms = pd.read_csv(path_to_t_bottom, delimiter="\t", usecols=["Well identifier", "Bot, ms"]).dropna().drop_duplicates(subset=["Well identifier"])
 
+
     df_well_coord.set_index(well_coord_def_set_index, inplace=True)
     df_top_ms.set_index(t_top_def_set_index, inplace=True)
     df_bottom_ms.set_index(t_bottom_def_set_index, inplace=True)
@@ -23,6 +24,10 @@ def get_well_info(path_to_well_coord,
     df_well_coord.columns = ["x", "y", "top_z", "bottom_z"]
     df_top_ms.columns = ["top_t"]
     df_bottom_ms.columns = ["bottom_t"]
+
+    print(f"df_well_coord: {df_well_coord.shape}")
+    print(f"df_top_ms: {df_top_ms.shape}")
+    print(f"df_bottom_ms: {df_bottom_ms.shape}")
 
     df_info = pd.concat([df_well_coord, df_top_ms, df_bottom_ms], axis=1, join="inner")
 
