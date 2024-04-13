@@ -6,7 +6,9 @@
 #### Презентация проекта лежит по ссылке: https://disk.yandex.ru/i/V-SOTKqCom7EVw
 
 Файлы как с исходными данными, так и с полученными в результате преобразования, лежат здесь:
+
 | Соответствующий путь в проекте | Ссылка на архив |
+|--------------------------------|-----------------|
 | 1__preprocessed_data/GIS_analise | https://disk.yandex.ru/d/HWDRs9XpQG0KNg |
 | 1__preprocessed_data/Seism_analise | https://disk.yandex.ru/d/NsFm_i6vnE0sZQ |
 | 2__Proc_data | https://disk.yandex.ru/d/JApou780yJnroQ |
